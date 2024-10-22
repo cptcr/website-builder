@@ -6,6 +6,8 @@ const fs = require('fs');
 const { marked } = require('marked');
 const nodemailer = require('nodemailer');
 const { exec } = require('child_process');
+const crypto = require('crypto'); // For generating randomized filenames
+const multer = require('multer'); // For handling file uploads
 const app = express();
 
 const fetchGitHubRepos = require('./src/functions/fetch-repos'); // Adjusted to accept pagination parameters
@@ -167,6 +169,47 @@ function verifyConfigurations() {
 
   return allConfigsValid;
 }
+
+// Ensure the upload directory exists
+const uploadDir = path.join(__dirname, 'public/uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Set up Multer storage and file filter
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    // Generate a random 16-byte hexadecimal filename
+    const randomName = crypto.randomBytes(16).toString('hex');
+    // Get the file extension
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, randomName + ext);
+  },
+});
+
+// Allowed file extensions
+const allowedExtensions = ['.jpeg', '.jpg', '.png', '.webp', '.heif'];
+
+const fileFilter = function (req, file, cb) {
+  const ext = path.extname(file.originalname).toLowerCase();
+  if (allowedExtensions.includes(ext)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Unsupported file type'), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
+});
+
+// Serve uploaded files statically
+app.use('/files', express.static(uploadDir));
 
 // Initialize the application after progress bar
 showProgressBar(() => {
@@ -534,7 +577,30 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// 404 Error Handler
+// File upload page (GET)
+app.get('/upload', (req, res) => {
+  res.render('upload', { config });
+});
+
+// File upload route (POST)
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (req.file) {
+    const fileUrl = `/files/${req.file.filename}`;
+    console.log(
+      `${colors.fg.green}%s${colors.reset}`,
+      `File uploaded successfully: ${fileUrl}`
+    );
+    res.status(200).json({ message: 'File uploaded successfully', fileUrl });
+  } else {
+    console.error(
+      `${colors.fg.red}%s${colors.reset}`,
+      'File upload failed'
+    );
+    res.status(400).json({ error: 'File upload failed' });
+  }
+});
+
+// 404 Error Handler (make sure this is at the end)
 app.use((req, res) => {
   console.warn(
     `${colors.fg.yellow}%s${colors.reset}`,

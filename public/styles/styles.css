@@ -1,4 +1,4 @@
-/* /public/styles/styles.css */
+/* /public/styles/style.css */
 
 /* Reset and Base Styles */
 * {
@@ -135,7 +135,8 @@ nav {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.toggle-option:hover, .toggle-option:focus {
+.toggle-option:hover,
+.toggle-option:focus {
     background-color: var(--primary-color);
     color: #fff;
 }
@@ -207,7 +208,8 @@ section h2::after {
     gap: 1.5rem;
 }
 
-.repo-grid, .tech-grid {
+.repo-grid,
+.tech-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
@@ -301,7 +303,8 @@ section h2::after {
 }
 
 /* Buttons */
-.button, button {
+.button,
+button {
     background-color: var(--primary-color);
     color: #fff;
     padding: 0.75rem 1.5rem;
@@ -312,11 +315,13 @@ section h2::after {
     transition: background-color 0.3s;
 }
 
-.button:hover, button:hover {
+.button:hover,
+button:hover {
     background-color: var(--secondary-color);
 }
 
-.button:disabled, button:disabled:hover {
+.button:disabled,
+button:disabled:hover {
     background-color: #ccc;
     cursor: not-allowed;
 }
@@ -373,6 +378,45 @@ footer a:hover {
 .form-group textarea {
     height: 150px;
     resize: vertical;
+}
+
+/* Upload Form Styles */
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.upload-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.upload-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.upload-form input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+#upload-status {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-secondary-color);
+}
+
+#upload-status p {
+    margin: 0.5rem 0;
 }
 
 /* Testimonials Section */
@@ -432,7 +476,8 @@ footer a:hover {
 
 /* Responsive Media Queries */
 @media (max-width: 992px) {
-    .repo-grid, .tech-grid {
+    .repo-grid,
+    .tech-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
@@ -466,11 +511,14 @@ footer a:hover {
         font-size: 1.5rem;
     }
 
-    .button, button {
+    .button,
+    button {
         width: 100%;
     }
 
-    .about-section, .contact-form {
+    .about-section,
+    .contact-form,
+    .upload-form {
         padding: 1rem;
     }
 

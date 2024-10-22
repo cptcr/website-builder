@@ -17,6 +17,7 @@
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [License](#license)
+- [Contact](#contact)
 
 ---
 
@@ -34,6 +35,9 @@ This is a personal portfolio website built with **Node.js**, **Express**, and **
 - **Responsive Design**: Optimized for all devices.
 - **Development Mode**: Uses Nodemon for auto-restarts during development.
 
+## Demo
+
+[Include a link to a live demo or screenshots here.]
 
 ## Prerequisites
 
