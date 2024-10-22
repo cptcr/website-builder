@@ -1,0 +1,18 @@
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="testimonials-section">
+            <h2>Testimonials</h2>
+            <% testimonials.forEach(testimonial => { %>
+                <div class="testimonial">
+                    <p>"<%= testimonial.feedback %>"</p>
+                    <p>- <strong><%= testimonial.name %></strong>, <em><%= testimonial.date %></em></p>
+                </div>
+            <% }) %>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>

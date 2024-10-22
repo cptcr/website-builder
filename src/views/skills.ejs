@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="skills-section">
+            <h2>My Skills</h2>
+            <ul class="skills-list">
+                <% skills.forEach(skill => { %>
+                    <li>
+                        <h3><%= skill.name %></h3>
+                        <p>Proficiency: <%= skill.level %></p>
+                    </li>
+                <% }) %>
+            </ul>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>

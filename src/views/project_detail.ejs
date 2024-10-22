@@ -1,0 +1,18 @@
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="project-detail">
+            <h2><%= repo.name %></h2>
+            <p><%= repo.description %></p>
+            <p><strong>Stars:</strong> <%= repo.stargazers_count %></p>
+            <p><strong>Forks:</strong> <%= repo.forks_count %></p>
+            <p><strong>Open Issues:</strong> <%= repo.open_issues_count %></p>
+            <p><strong>Language:</strong> <%= repo.language %></p>
+            <a href="<%= repo.html_url %>" target="_blank" class="button">View on GitHub</a>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>

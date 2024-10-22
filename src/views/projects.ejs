@@ -1,0 +1,35 @@
+<!-- /src/views/projects.ejs -->
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+
+    <main>
+        <section>
+            <h2>All Projects</h2>
+            <div class="repo-grid grid">
+                <% allRepos.forEach(repo => { %>
+                <div class="repo-card">
+                    <h3><%= repo.name %></h3>
+                    <p><%= repo.description %></p>
+                    <div class="repo-info">
+                        <span>
+                            <i class="fas fa-star star-icon"></i> <%= repo.stargazers_count %>
+                        </span>
+                        <span>
+                            <i class="fas fa-code-branch"></i> <%= repo.forks_count %>
+                        </span>
+                        <% if (repo.language) { %>
+                        <span>
+                            <i class="fas fa-code"></i> <%= repo.language %></span>
+                        <% } %>
+                    </div>
+                    <a href="<%= repo.html_url %>" target="_blank">View on GitHub</a>
+                </div>
+                <% }) %>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!-- /src/views/contact.ejs -->
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+
+    <main>
+        <section class="contact-section">
+            <h2>Contact Me</h2>
+
+            <% if (success) { %>
+                <div class="alert success">
+                    <p><%= success %></p>
+                </div>
+            <% } %>
+
+            <% if (error) { %>
+                <div class="alert error">
+                    <p><%= error %></p>
+                </div>
+            <% } %>
+
+            <form action="/contact" method="POST" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="<%= name || '' %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="<%= email || '' %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required><%= message || '' %></textarea>
+                </div>
+                <button type="submit" class="button">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

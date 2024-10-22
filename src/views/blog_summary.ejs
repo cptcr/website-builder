@@ -1,0 +1,21 @@
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+
+    <main>
+        <section>
+            <h2>Blog Summary</h2>
+            <div class="blog-grid grid">
+                <% posts.forEach(post => { %>
+                    <div class="card">
+                        <h3><%= post.filename %></h3>
+                        <p><%= post.summary %></p>
+                        <a href="/blog/<%= post.filename.replace('.md', '') %>">Read More</a>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>

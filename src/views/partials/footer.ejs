@@ -1,0 +1,58 @@
+<footer>
+  <p>&copy; <%= new Date().getFullYear() %> <%= config.siteName %>. All rights reserved.</p>
+  <p>Built with <a href="https://github.com/cptcr/website-builder">CPTCR Website Builder</a></p>
+</footer>
+
+<!-- Theme Switching Script -->
+<script>
+  const themes = ['system', 'light', 'dark'];
+  const themeOptions = {
+      'system': document.getElementById('system-theme'),
+      'light': document.getElementById('light-theme'),
+      'dark': document.getElementById('dark-theme')
+  };
+
+  function applyTheme(theme) {
+      document.body.classList.remove('dark-mode');
+      if (theme === 'dark') {
+          document.body.classList.add('dark-mode');
+      } else if (theme === 'light') {
+          // Light mode is default
+      } else {
+          // System default
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.body.classList.add('dark-mode');
+          }
+      }
+      // Update active class
+      Object.keys(themeOptions).forEach(t => {
+          if (t === theme) {
+              themeOptions[t].classList.add('active');
+          } else {
+              themeOptions[t].classList.remove('active');
+          }
+      });
+  }
+
+  // Load saved theme from localStorage
+  const savedTheme = localStorage.getItem('theme') || 'system';
+  applyTheme(savedTheme);
+
+  // Event Listeners for Theme Options
+  Object.keys(themeOptions).forEach(theme => {
+      themeOptions[theme].addEventListener('click', () => {
+          localStorage.setItem('theme', theme);
+          applyTheme(theme);
+      });
+  });
+
+  // Listen for system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      const currentTheme = localStorage.getItem('theme') || 'system';
+      if (currentTheme === 'system') {
+          applyTheme('system');
+      }
+  });
+</script>
+</body>
+</html>
