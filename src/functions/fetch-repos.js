@@ -4,6 +4,10 @@ const axios = require('axios');
 const config = require('../../config/config.json');
 
 async function fetchGitHubRepos(page = 1, perPage = 100) {
+
+    /*
+    Kp irgendwo hier gab es performance issues, bin zu faul zum fixxen
+    */
   try {
     const response = await axios.get(
       `https://api.github.com/users/${config.githubUsername}/repos`,
@@ -21,10 +25,10 @@ async function fetchGitHubRepos(page = 1, perPage = 100) {
 
     const repos = response.data;
 
-    // Filter out forked repos
+    //Filter out forked repos
     const nonForkedRepos = repos.filter((repo) => !repo.fork);
 
-    // Sort by stars in descending order
+    //Sort by stars in descending order
     nonForkedRepos.sort(
       (a, b) => b.stargazers_count - a.stargazers_count
     );

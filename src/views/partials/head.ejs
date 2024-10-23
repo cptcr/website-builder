@@ -1,8 +1,10 @@
 <!-- /src/views/partials/head.ejs -->
 <head>
   <meta charset="UTF-8">
-  <title><%= config.siteName %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= config.siteName %></title>
+  <!-- Dynamic stylesheet link -->
+  <link rel="stylesheet" href="/styles/style-<%= config.design %>.css">
   <!-- Include Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <!-- Include Your Stylesheet -->

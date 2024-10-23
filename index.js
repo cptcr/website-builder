@@ -24,12 +24,6 @@ app.use(express.urlencoded({ extended: true })); // Middleware to parse form dat
 const colors = {
   reset: '\x1b[0m',
   bright: '\x1b[1m',
-  dim: '\x1b[2m',
-  underscore: '\x1b[4m',
-  blink: '\x1b[5m',
-  reverse: '\x1b[7m',
-  hidden: '\x1b[8m',
-
   fg: {
     black: '\x1b[30m',
     red: '\x1b[31m',
@@ -39,17 +33,6 @@ const colors = {
     magenta: '\x1b[35m',
     cyan: '\x1b[36m',
     white: '\x1b[37m',
-  },
-
-  bg: {
-    black: '\x1b[40m',
-    red: '\x1b[41m',
-    green: '\x1b[42m',
-    yellow: '\x1b[43m',
-    blue: '\x1b[44m',
-    magenta: '\x1b[45m',
-    cyan: '\x1b[46m',
-    white: '\x1b[47m',
   },
 };
 
@@ -124,6 +107,9 @@ function verifyConfigurations() {
   );
   let allConfigsValid = true;
 
+  // Valid design options
+  const validDesigns = Object.keys(config['design-options']);
+
   // Check main configuration
   if (!config.githubUsername) {
     console.error(
@@ -137,6 +123,14 @@ function verifyConfigurations() {
       `${colors.fg.yellow}%s${colors.reset}`,
       'Warning: Port is not set in config.json. Using default port 3000.'
     );
+  }
+  // Check design selection
+  if (!validDesigns.includes(config.design)) {
+    console.error(
+      `${colors.fg.red}%s${colors.reset}`,
+      `Error: Invalid design "${config.design}" specified in config.json. Valid options are: ${validDesigns.join(', ')}.`
+    );
+    allConfigsValid = false;
   }
 
   // Check mail configuration
@@ -319,35 +313,11 @@ app.get('/', async (req, res) => {
   const allRepos = await getCachedGitHubRepos();
   const topRepos = allRepos.slice(0, 4); // Get top 4 repos
   const twitchStats = await fetchTwitchStats();
-  const techStack = [
-    {
-      name: 'TypeScript',
-      description:
-        'A typed superset of JavaScript that compiles to plain JavaScript.',
-    },
-    {
-      name: 'EJS',
-      description:
-        'A templating language that generates HTML with plain JavaScript.',
-    },
-    {
-      name: 'AWS',
-      description: 'Amazon Web Services is a comprehensive cloud platform.',
-    },
-    {
-      name: 'SQL',
-      description:
-        'Structured Query Language, used to manage relational databases.',
-    },
-    {
-      name: 'Vercel',
-      description: 'A platform for static sites and serverless functions.',
-    },
-    {
-      name: 'Ubuntu',
-      description: 'A Linux distribution used for development and servers.',
-    },
-  ];
+  const techStack = config.techStack || {
+    languages: [],
+    tools: [],
+  };
+
   console.log(
     `${colors.fg.blue}%s${colors.reset}`,
     `Rendering home page with ${topRepos.length} top repositories.`
@@ -390,16 +360,8 @@ app.get('/projects/:repoName', async (req, res) => {
 
 // Skills page
 app.get('/skills', (req, res) => {
-  const skills = [
-    { name: 'JavaScript', level: 'Advanced' },
-    { name: 'Node.js', level: 'Advanced' },
-    { name: 'Express.js', level: 'Intermediate' },
-    { name: 'React', level: 'Intermediate' },
-    { name: 'TypeScript', level: 'Intermediate' },
-    { name: 'SQL', level: 'Intermediate' },
-    { name: 'AWS', level: 'Beginner' },
-    // Add more skills as needed
-  ];
+  const skills = config.skills || [];
+
   console.log(
     `${colors.fg.blue}%s${colors.reset}`,
     'Rendering skills page.'
@@ -418,19 +380,8 @@ app.get('/about', (req, res) => {
 
 // Testimonials page
 app.get('/testimonials', (req, res) => {
-  const testimonials = [
-    {
-      name: 'John Doe',
-      feedback: 'Great to work with!',
-      date: '2023-01-15',
-    },
-    {
-      name: 'Jane Smith',
-      feedback: 'Delivered on time and exceeded expectations.',
-      date: '2023-02-10',
-    },
-    // Add more testimonials as needed
-  ];
+  const testimonials = config.testimonials || [];
+
   console.log(
     `${colors.fg.blue}%s${colors.reset}`,
     'Rendering testimonials page.'
@@ -530,7 +481,7 @@ app.post('/contact', async (req, res) => {
     const transporter = nodemailer.createTransport({
       host: mailConfig.host,
       port: mailConfig.port,
-      secure: mailConfig.secure, // true for 465, false for other ports
+      secure: mailConfig.secure === 'true' || mailConfig.secure === true, // Convert string 'true'/'false' to boolean
       auth: {
         user: mailConfig.auth.user,
         pass: mailConfig.auth.pass,
