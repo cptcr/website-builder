@@ -1,253 +1,197 @@
-# Personal Portfolio Website
+# Website Builder
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+A customizable and extensible website builder that allows you to create a professional portfolio or personal website with ease. Configure your site using simple JSON files, choose from multiple design themes, and deploy it effortlessly.
 
 ## Table of Contents
 
-- [Introduction](#introduction)
 - [Features](#features)
-- [Demo](#demo)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Available Designs](#available-designs)
 - [Usage](#usage)
-- [Development](#development)
-- [Folder Structure](#folder-structure)
-- [Customization](#customization)
-- [Troubleshooting](#troubleshooting)
+  - [Running the Application](#running-the-application)
+  - [Scripts](#scripts)
+- [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
-
----
-
-## Introduction
-
-This is a personal portfolio website built with **Node.js**, **Express**, and **EJS** templating. It showcases your projects fetched from GitHub, displays Twitch statistics, includes a blog, and features a contact form powered by Nodemailer.
 
 ## Features
 
-- **Dynamic Project Display**: Automatically fetches and displays your GitHub repositories.
-- **Twitch Statistics**: Shows live Twitch stats.
-- **Blog**: Supports Markdown-formatted blog posts.
-- **Contact Form**: Allows visitors to send messages directly to your email.
-- **Skills and Testimonials**: Highlights your skills and client testimonials.
-- **Responsive Design**: Optimized for all devices.
-- **Development Mode**: Uses Nodemon for auto-restarts during development.
+- **Easy Configuration**: Customize your website using simple JSON files.
+- **Multiple Design Themes**: Choose from various pre-built themes to match your style.
+- **Dynamic Content**: Fetches GitHub repositories and Twitch stats to display on your site.
+- **Contact Form**: Integrated contact form with email notifications.
+- **Blog Support**: Write blog posts in Markdown.
+- **File Uploads**: Support for uploading files with configurable storage.
+- **Responsive Design**: Mobile-friendly layouts using modern CSS practices.
 
-## Demo
+## Getting Started
 
-[Include a link to a live demo or screenshots here.]
+Follow these instructions to get a copy of the project up and running on your local machine.
 
-## Prerequisites
+### Prerequisites
 
-- **Node.js** (version 14 or higher recommended)
-- **npm** (Node Package Manager)
-- **GitHub Personal Access Token**: For GitHub API access.
-- **Twitch API Credentials**: For Twitch stats.
-- **SMTP Server Credentials**: For sending emails via Nodemailer.
+- **Node.js** (v14 or higher)
+- **npm** (v6 or higher)
 
-## Installation
+### Installation
 
-1. **Clone the Repository**
+1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/cptcr/website-builder.git
    ```
 
-2. **Install Dependencies**
+2. **Navigate to the project directory**
+
+   ```bash
+   cd website-builder
+   ```
+
+3. **Install dependencies**
 
    ```bash
    npm install
    ```
 
-3. **Install Nodemon (for Development)**
+### Configuration
+
+The application uses JSON files for configuration. You can generate these files using the interactive setup script.
+
+1. **Run the setup script**
 
    ```bash
-   npm install -g nodemon
+   npm run setup
    ```
 
-## Configuration
+2. **Follow the prompts**
 
-### 1. **Main Configuration**
+   The script will ask for various details such as site name, GitHub username, design selection, API tokens, personal information, etc.
 
-Create a `config.json` file inside the `config` directory:
+3. **Configuration files generated**
 
-```json
-{
-  "port": 3000,
-  "siteName": "Your Site Name",
-  "githubUsername": "your_github_username",
-  "twitchUsername": "your_twitch_username",
-  "apiTokens": {
-    "githubToken": "your_github_api_token",
-    "twitchClientId": "your_twitch_client_id",
-    "twitchToken": "your_twitch_oauth_token"
-  }
-}
-```
+   - `config/config.json`: Main configuration file.
+   - `config/mail.config.json`: Mail server configuration for the contact form.
 
-- **port**: Port number for the server.
-- **siteName**: The name of your website.
-- **githubUsername**: Your GitHub username.
-- **twitchUsername**: Your Twitch username.
-- **apiTokens.githubToken**: GitHub Personal Access Token.
-- **apiTokens.twitchClientId**: Twitch Client ID.
-- **apiTokens.twitchToken**: Twitch OAuth Token.
+### Available Designs
 
-### 2. **Mail Configuration**
+Choose from the following design themes during setup:
 
-Create a `mail.config.json` file inside the `config` directory:
-
-```json
-{
-  "host": "smtp.your-email-provider.com",
-  "port": 587,
-  "secure": false,
-  "auth": {
-    "user": "your-email@example.com",
-    "pass": "your-email-password"
-  },
-  "recipientEmail": "recipient@example.com"
-}
-```
-
-- **host**: SMTP server host.
-- **port**: SMTP server port.
-- **secure**: `true` for port 465, `false` for other ports.
-- **auth.user**: Your email address.
-- **auth.pass**: Your email password or app-specific password.
-- **recipientEmail**: Email to receive contact form messages.
-
-**Note**: Do not commit configuration files with sensitive information to version control.
+- **default**: Default design with a balanced and classic look.
+- **midnight**: A sleek dark theme with deep blues and purples.
+- **sunset**: Warm and vibrant colors inspired by a sunset.
+- **caprihan**: Cool blues and greens inspired by the island of Capri.
+- **ocean**: An oceanic theme featuring teals and deep blues.
 
 ## Usage
 
 ### Running the Application
 
-#### Development Mode
+To start the application, use one of the following commands:
 
-To run the application in development mode with automatic restarts:
+- **Production Mode**
 
-```bash
-npm run dev
-```
+  ```bash
+  npm start
+  ```
 
-#### Production Mode
+- **Development Mode** (with nodemon for automatic restarts)
 
-To run the application normally:
+  ```bash
+  npm run dev
+  ```
 
-```bash
-npm run build
-```
-
-### Accessing the Website
-
-Open your browser and navigate to:
-
-```
-http://localhost:3000
-```
-
-Replace `3000` with your configured port if different.
-
-## Development
-
-### Folder Structure
-
-```
-your-repo-name/
-├── config/
-│   ├── config.json
-│   └── mail.config.json
-├── public/
-│   ├── styles/styles.css
-├── src/
-│   ├── functions/
-│   │   ├── fetch-repos.js
-│   │   └── fetch-twitch-stats.js
-│   ├── markdown/
-│   │   ├── test-1.md
-│   │   ├── test-2.md
-│   └── views/
-│       ├── partials/
-│       |   ├── footer.ejs
-│       |   ├── head.ejs
-│       |   ├── header.ejs
-│       ├── index.ejs
-│       ├── projects.ejs
-│       ├── project_detail.ejs
-│       ├── skills.ejs
-│       ├── about.ejs
-│       ├── testimonials.ejs
-│       ├── blog_summary.ejs
-│       ├── blog.ejs
-│       ├── contact.ejs
-│       └── 404.ejs
-├── index.js
-├── package.json
-├── .gitignore
-└── README.md
-```
+The server will start on the port specified in your `config.json` (default is `3000`).
 
 ### Scripts
 
-In your `package.json`, ensure you have:
+- **Setup**
 
-```json
-"scripts": {
-  "start": "node index.js",
-  "dev": "nodemon index.js"
-}
+  Runs the interactive configuration script.
+
+  ```bash
+  npm run setup
+  ```
+
+- **Start**
+
+  Starts the server in production mode.
+
+  ```bash
+  npm start
+  ```
+
+- **Dev**
+
+  Starts the server in development mode with nodemon.
+
+  ```bash
+  npm run dev
+  ```
+
+- **Test**
+
+  Placeholder for running tests.
+
+  ```bash
+  npm test
+  ```
+
+## Project Structure
+
 ```
-
-## Customization
-
-### 1. **EJS Templates**
-
-Customize the EJS templates in `src/views/` to change the website's appearance.
-
-### 2. **Styles and Scripts**
-
-Add your CSS and JavaScript files to the `public/css/` and `public/js/` directories.
-
-### 3. **Blog Posts**
-
-Place your Markdown-formatted blog posts in the `src/markdown/` directory.
-
-**Example Format**:
-
-```markdown
-# Blog Post Title
-
-Date: YYYY-MM-DD
-
-Content of your blog post...
+website-builder/
+├── config/
+│   ├── config.json          # Main configuration file
+│   └── mail.config.json     # Mail server configuration
+├── public/
+│   ├── styles/              # CSS files for different themes
+│   ├── uploads/             # Uploaded files
+│   └── ...                  # Static assets
+├── src/
+│   ├── functions/
+│   │   ├── fetch-repos.js   # Function to fetch GitHub repos
+│   │   └── fetch-twitch-stats.js  # Function to fetch Twitch stats
+│   ├── markdown/            # Blog posts in Markdown format
+│   └── views/               # EJS templates
+├── .gitignore
+├── index.js                 # Main application file
+├── package.json
+├── README.md
+└── setup.js                 # Interactive setup script
 ```
-
-### 4. **Skills and Testimonials**
-
-Update the arrays in `index.js` or create separate JSON files for better management.
-
-### 5. **GitHub Repositories**
-
-Ensure your GitHub API token has the necessary permissions to fetch your repositories.
-
-### 6. **Contact Form**
-
-Configure SMTP settings in `mail.config.json` to enable email functionality.
-
-## Troubleshooting
-
-- **Port Already in Use**: Change the port number in `config/config.json` or stop the process using the port.
-- **GitHub API Rate Limits**: Use a GitHub token to increase rate limits.
-- **Email Sending Issues**: Verify SMTP settings and credentials in `mail.config.json`.
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and submit a pull request.
+Contributions are welcome! Please follow these steps:
+
+1. **Fork the repository**
+2. **Create a new branch**
+
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **Commit your changes**
+
+   ```bash
+   git commit -m "Add your message here"
+   ```
+
+4. **Push to the branch**
+
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. **Open a Pull Request**
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+**Note**: Remember to replace placeholders like `your_github_api_token`, `your_twitch_oauth_token`, and `your_twitch_client_id` with your actual API tokens in the configuration files. Keep these tokens secure and do not share them publicly.
